@@ -16,14 +16,28 @@
 					</form>
 					
 					<div>
-						<form action="${pageContext.servletContext.contextPath}/buy-book" method="post">
-							<div> <input type="text" name="title" placeholder="Title"> </div>
-							<div> <input type="text" name="author" placeholder="Author"></div>
-							<div> <input type="text" name="isbn" placeholder="ISBN"></div>
-							<div> <input type="text" name="price" placeholder="Price"></div>
-							<div> ${bookForSale.account.username}</div>
-							<div> <input type="submit" name="submit" value="Buy Book"> </div>
-						</form>
+						<table>
+						<tr>
+							<td>Pick</td>
+							<td class="bookColHeading">Title</td>
+							<td class="nameColHeading">Owner</td>
+							<td class="isbnColHeading">Price</td>
+			    		</tr>
+			    		<form action="${pageContext.servletContext.contextPath}/buy-book" method="Post">
+			    		<c:forEach items="${books}" var="bfs">
+			        		<tr class="bookRow">
+			        			<td><input type="checkbox" name="c${bfs.book.title}" value="${bfs.book.title}"></td>
+			            		<td class="bookCol">${bfs.book.title}</td>
+			            		<td class="nameCol">${bfs.owner.name}</td>
+			            		<td class="isbnCol">${bfs.price}</td>			            
+			        		</tr>
+			    		</c:forEach> 
+			    		<tr><td>
+			    			<input type="submit" name="buttonPress" value="Buy">
+			    		</td></tr>
+			    		
+			    		</form>
+			    		</table>
 					</div>
 				</td>
 				
@@ -56,7 +70,7 @@
 									</form>
 								</td>
 								<td>
-									<form action="${pageContext.servletContext.contextPath}/account-page" method = "get">
+									<form action="${pageContext.servletContext.contextPath}/update-account" method = "get">
 										<input name="buttonPress" type="submit" value="Edit Account">
 									</form>
 								</td>

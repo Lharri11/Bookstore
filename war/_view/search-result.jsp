@@ -12,7 +12,9 @@
 		<table>
 			<tr>
 				<td>
-					<div><img src="res/logo.gif.png" alt="YCP"></img></div>
+					<form action="${pageContext.servletContext.contextPath}/home" method="post">
+							<input type="image" src="res/logo.gif.png" alt="YCP Logo" name="buttonPress" value="home"/>
+						</form>
 					
 					<form action="${pageContext.servletContext.contextPath}/search" method="post">
 						<div>
@@ -40,6 +42,7 @@
 					<div>
 					<table>
 						<tr>
+							<td>Pick</td>
 							<td class="bookColHeading">Title</td>
        						<td class="isbnColHeading">ISBN</td>
 							<td class="nameColHeading">Last Name</td>
@@ -48,13 +51,17 @@
 			    		<form action="${pageContext.servletContext.contextPath}/buy-book" method="GET">
 			    		<c:forEach items="${books}" var="book">
 			        		<tr class="bookRow">
+			        			<td><input type="checkbox" name="c${book.title}" value="${book.title}" ></td>
 			            		<td class="bookCol">${book.title}</td>
 			            		<td class="isbnCol">${book.isbn}</td>
 			            		<td class="nameCol">${book.authorslastname}</td>
-			            		<td class="nameCol">${book.authorsfirstname}</td>		
-			            		<td><input type="submit" name="buttonPress" value="BUY"</td>		            
+			            		<td class="nameCol">${book.authorsfirstname}</td>			            
 			        		</tr>
 			    		</c:forEach> 
+			    		<tr><td>
+			    			<input type="submit" name="buttonPress" value="Buy">
+			    		</td></tr>
+			    		
 			    		</form>
 			    		</table>
 					</div>
@@ -89,7 +96,7 @@
 									</form>
 								</td>
 								<td>
-									<form action="${pageContext.servletContext.contextPath}/account-page" method = "get">
+									<form action="${pageContext.servletContext.contextPath}/update-account" method = "get">
 										<input name="buttonPress" type="submit" value="Edit Account">
 									</form>
 								</td>

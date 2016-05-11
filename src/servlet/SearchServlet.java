@@ -8,33 +8,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.LoginController;
 import controller.SearchController;
 import src.Author;
 import src.Book;
 
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+		LoginController login = new LoginController();
+		if(login.handleLoginCheck(req)){
+			SearchController search = new SearchController();
+			List<Book> books = search.getAllBooks();
+
+			req.setAttribute("books", books);
+			req.getSession().setAttribute("booklist", books);
+			req.getRequestDispatcher("/_view/search-result.jsp").forward(req, resp);
+		}
+		else{
+
 		SearchController search = new SearchController();
 		List<Book> books = search.getAllBooks();
-		
+
 		req.setAttribute("books", books);
 		req.getRequestDispatcher("/_view/search-result.jsp").forward(req, resp);
+		}
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
 		SearchController search = new SearchController();
 		String searchBar = req.getParameter("search");
 		String byButton = req.getParameter("bybutton");
 		List<Book> books = null;
-		
 		if(searchBar != null && !searchBar.equals("")){
 			if(byButton.equals("Search by Title")){
 				books = search.getBooksByTitle(searchBar);
@@ -54,8 +64,16 @@ public class SearchServlet extends HttpServlet {
 			books = search.getAllBooks();
 		}
 		
-		req.setAttribute("books", books);
-		req.getRequestDispatcher("/_view/search-result.jsp").forward(req, resp);
+		LoginController login = new LoginController();
+		if(login.handleLoginCheck(req)){
+			req.setAttribute("books", books);
+			req.getSession().setAttribute("booklist", books);
+			req.getRequestDispatcher("/_view/search-result.jsp").forward(req, resp);
+		}
+		else{
+			req.setAttribute("books", books);
+			req.getRequestDispatcher("/_view/search-result.jsp").forward(req, resp);
+		}
 	}
 
 }

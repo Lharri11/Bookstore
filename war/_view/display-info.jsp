@@ -4,51 +4,55 @@
 
 <html>
 	<head>
-		<title>YCP Bookstore</title>
 		<link rel="stylesheet" type="text/css" href="_view/mainstyle.css">
 	</head>
 
 	<body>
 		<table>
-			<tr> 
-			<td>
-			<table>
-				<tr>	
-					<td>
-						<form action="${pageContext.servletContext.contextPath}/home" method="post">
-							<input type="image" src="res/logo.gif.png" alt="YCP Logo" name="buttonPress" value="home"/>
-						</form>
-					</td>
-				</tr>
-				<tr>
-					<td>  
-						<form action="${pageContext.servletContext.contextPath}/search" method="post">
-							<div>
-								<table>
-									<tr>
-										<input type="text" name="search" placeholder="Search by title, author, ISBN...">
-									</tr>
-									<tr>
-										<td>
-  											<input name="bybutton" type="submit" value="Search by Title" />
-										</td>
-										<td>
-  											<input name="bybutton" type="submit" value="Search by Author" />
-										</td>
-										<td>
-											<input name="bybutton" type="submit" value="Search by ISBN" />
-										</td>
-									</tr>
-								</table>
-							</div>	
-						</form>
-					</td>
-				</tr>
-			</table>
-			</td>
-			
-			<td>
-				<c:choose>
+			<tr>
+				<td>
+					<form action="${pageContext.servletContext.contextPath}/home" method="get">
+						<input type="image" src="res/logo.gif.png" alt="YCP Logo" name="buttonPress"/>
+					</form>
+					
+					<div>
+					<c:if test="${! empty errorMessage}">
+						<div>${errorMessage}</div>
+					</c:if>
+					
+					<c:if test="${empty errorMessage}">
+						<table>
+						<tr>
+							<td>Book Title: </td>
+							<td> ${bfs.book.title}</td>
+			    		</tr>
+			    		<tr>
+							<td>Book ISBN: </td>
+							<td> ${bfs.book.isbn}</td>
+			    		</tr>
+			    		<tr>
+							<td>Book Price: </td>
+							<td> ${bfs.price}</td>
+			    		</tr>
+			    		<tr>
+							<td>Book Owner: </td>
+							<td> ${bfs.owner.name}</td>
+			    		</tr>
+			    		<tr>
+							<td>Owner Email: </td>
+							<td> ${bfs.owner.email}</td>
+			    		</tr>
+			    		<tr>
+							<td>Owner Phone Number: </td>
+							<td> ${bfs.owner.phoneNumber}</td>
+			    		</tr>
+			    		</table>
+			    	</c:if>
+					</div>
+				</td>
+				
+				<td>
+						<c:choose>
 				<c:when test="${loggedin}">
 					<div> 
 						<table>
@@ -102,12 +106,15 @@
 					</form>
 				</c:otherwise>
 				</c:choose>	
-			</td>
-			</tr>
+				</td>
 		</table>
 		
-		<div class="inlineImage">
-			<img src="res/spartan.gif" alt="Smarty McSpartan"></img>
-		</div>
+		<c:if test="${! empty errorMessage}">
+			<div>${errorMessage}</div>
+		</c:if>
+		
+		<c:if test="${! empty successMessage}">
+			<div>${successMessage}</div>
+		</c:if>
 	</body>
 </html>

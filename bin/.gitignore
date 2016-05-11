@@ -1,7 +1,3 @@
 /bin/
-
-
-/database/
 /servlet/
-/controller/
-/src/
+/database/
